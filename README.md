@@ -28,7 +28,7 @@ In fact, both $a$ and $b$ could be considered as independent subjects to minimiz
 ## Installation
 
 ```{.shell}
-$ pip install spacopt
+pip install spacopt
 ```
 
 ## Usage
