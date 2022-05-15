@@ -15,7 +15,7 @@ spacopt
 
 
 
-
+`spacopt` - short for `spacal-optimization`
 spacopt is a package for bringing optimization techniques to spacal-simulation application
 
 
@@ -25,8 +25,15 @@ spacopt is a package for bringing optimization techniques to spacal-simulation a
 
 Features
 --------
+* Create config files, with user defined parameters of the module.
+* Run a MC simulation, using pyton script
+* Run Optimization for finding best user-defined parameters of module, to minimize the loss function: $
+\dfrac{a}{\sqrt{E}}+b,$
+where $a$ - sampling term,
+$b$ - constant term.
 
-* TODO
+In fact, both $a$ and $b$ could be considered as independent subjects to minimize, as well as other functions of one or both of them.
+
 
 Credits
 -------
