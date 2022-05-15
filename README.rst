@@ -27,18 +27,9 @@ Features
 --------
 * Create config files, with user defined parameters of the module.
 * Run a MC simulation, using pyton script
-* Run Optimization for finding best user-defined parameters of module, to minimize the loss function: $
-\dfrac{a}{\sqrt{E}}+b,$
-where $a$ - sampling term,
-$b$ - constant term.
-
-In fact, both $a$ and $b$ could be considered as independent subjects to minimize, as well as other functions of one or both of them.
-
+* Run Optimization for finding best user-defined parameters of module, to minimize the loss function
 
 Credits
 -------
 
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
-
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+* Shakhzod Dadabaev Urazalievich <misis.dsu@gmail.com>
