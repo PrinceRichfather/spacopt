@@ -12,4 +12,4 @@ developed for LHCb ECAL particle-matter interaction studies
 '''
 
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
