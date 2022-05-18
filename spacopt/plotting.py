@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import datetime
 
 
-def plotting_scores(data):
+def plotting_scores(data, save_png=True):
 
     """
 
@@ -25,6 +25,8 @@ def plotting_scores(data):
     plt.grid()
     plt.title('Energy resolution after each iteration')
     plt.xlabel('Iteration number')
-    plt.ylabel('Found minimum $\dfrac{\sigma}{E}$%')  
-    # plt.show()
-    plt.savefig(f'python_scripts/data/pcts/{start}.png')
+    plt.ylabel('Found minimum')  
+    if save_png==True:
+        plt.savefig(f'python_scripts/data/pcts/{start}.png')
+
+    plt.show()

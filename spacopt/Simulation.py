@@ -5,7 +5,7 @@ import ROOT
 import root_numpy as rn
 import time
 from array import array
-from calculateModule import calculateModule
+from .calculateModule import calculateModule
 
 class Simulation:
     """ """
