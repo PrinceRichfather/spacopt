@@ -10,10 +10,10 @@ with open('README.md') as readme_file:
 with open('HISTORY.md') as history_file:
     history = history_file.read()
 
-requirements = ['pandas>=1.4',
+requirements = ['pandas>=0.24.2',
                 'hyperactive>=4.1.1', 
-                'matplotlib>=3.5', 
-                'numpy>=1.22', 
+                'matplotlib>=3.1', 
+                'numpy>=1.20', 
                 'root_numpy>=4.8.0']
 
 test_requirements = [ ]
