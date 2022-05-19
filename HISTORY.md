@@ -1,5 +1,11 @@
 # History
 
+## 0.3.0
+
+* New method to Simulation: MultiFittingMultProc
+  * Adds multiprocessing to running geant4 instances (core per every energy point), so now energy points run in parallel. 
+* Other minor changes to Simulation init: so it now accepts parameters of the module, instead of final method.
+
 ## 0.2.0 (2022-05-18)
 
 ### New scipts
