@@ -1,6 +1,10 @@
 # History
 
-## 0.3.0
+## 0.3.1 (2022-05-19)
+
+* Readability changges to Simulation prints
+
+## 0.3.0 (2022-05-19)
 
 * New method to Simulation: MultiFittingMultProc
   * Adds multiprocessing to running geant4 instances (core per every energy point), so now energy points run in parallel. 
