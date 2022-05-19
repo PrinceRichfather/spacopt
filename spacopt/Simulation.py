@@ -241,10 +241,10 @@ class Simulation:
 
 
         print()
-        print('STARTING PIPELINE')
-        print('-----------------------------------------------------------------')
-        print(f"Energy: {energy} GeV")
-        print(f"Events: {self.events}")
+        print(f'STARTING PIPELINE ### Energy: {energy} GeV ### Events: {self.events}')
+        # print('-----------------------------------------------------------------')
+        # print(f"Energy: {energy} GeV")
+        # print(f"Events: {self.events}")
         time.sleep(2)
 
         # print("calculating module parameters")
