@@ -5,7 +5,7 @@ from hyperactive import Hyperactive
 from hyperactive.optimizers import BayesianOptimizer
 
 
-def Optimization_run(model,search_space, optimizer = BayesianOptimizer(), n_iter=1, save_xl=True):
+def Optimization_run(model, search_space, optimizer = BayesianOptimizer(), n_iter=1, save_xl=True):
 
     start = datetime.datetime.now()
 
@@ -22,6 +22,7 @@ def Optimization_run(model,search_space, optimizer = BayesianOptimizer(), n_iter
 
     # Saving .xlsx file to the <folder_name> directory
     if save_xl==True:
+        print('Saving optimizer data to: python_scripts/data/optimizer_outputs/')
         data.to_excel(f'python_scripts/data/optimizer_outputs/opt_dataframe_{start}.xlsx')
     
     # Writing DataFrame Attribute with time spent within module

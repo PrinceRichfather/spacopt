@@ -6,13 +6,22 @@ import root_numpy as rn
 import time
 from array import array
 from .calculateModule import calculateModule
+import concurrent
+from tqdm import tqdm
+import os
 
 class Simulation:
     """ """
 
-    def __init__(self, delete_cfg=False, delete_root=False) -> None:
+    def __init__(self, wall, fiber_diameter, events, delete_cfg=False, delete_root=False) -> None:
+        
+        
         self.delete_cfg = delete_cfg
         self.delete_root = delete_root
+
+        self.wall = wall
+        self.fiber_diameter = fiber_diameter
+        self.events = events
 
     def configWriter(self, df: pd.DataFrame, seed=-1) -> str:         
         """
@@ -182,9 +191,11 @@ class Simulation:
 
         """
 
-        subprocess.call(['rm','-r', root_path])
-
-        return 0
+        if os.path.exists(root_path):
+            os.remove(root_path)
+            return 0
+        else:
+            return 0
 
     def delcfg(self, cfg_path: str) -> int:
         """
@@ -200,17 +211,16 @@ class Simulation:
         """
 
 
-        subprocess.call(['rm', f"python_scripts/data/my_configs/{cfg_path}.cfg"])
-
-        
-        return 0
+        if os.path.exists(cfg_path):
+            os.remove(cfg_path)
+            return 0
+        else:
+            return 0
 
     def runEnergyResolution(self,
-                            wall: float,            # Absorber wall between holes
-                            fiber_diameter: float,  # Fiber diameter
                             energy: int,            # Energy of primary particles per run
-                            events: int             # Number of primary particles per run
                             ):
+
         """
 
         Parameters
@@ -234,37 +244,37 @@ class Simulation:
         print('STARTING PIPELINE')
         print('-----------------------------------------------------------------')
         print(f"Energy: {energy} GeV")
-        print(f"Events: {events}")
+        print(f"Events: {self.events}")
         time.sleep(2)
 
-        print("calculating module parameters")
-        module_params_df = calculateModule(wall=wall, fiber_diameter=fiber_diameter)
+        # print("calculating module parameters")
+        module_params_df = calculateModule(wall=self.wall, fiber_diameter=self.fiber_diameter)
 
-        print("writing to .cfg file")
+        # print("writing to .cfg file")
         cfg_file = self.configWriter(df=module_params_df)
 
-        print("writing to .mac file")
-        self.macWriter(energy = energy, events = events)
+        # print("writing to .mac file")
+        self.macWriter(energy = energy, events = self.events)
 
-        print('starting simulation')
-        root_path = self.runGeant4(cfg_file=cfg_file,events=events, energy=energy)
-        print("simulation finished (going to sleep for 1 sec.)")
+        # print('starting simulation')
+        root_path = self.runGeant4(cfg_file=cfg_file,events=self.events, energy=energy)
+        # print("simulation finished (going to sleep for 1 sec.)")
         time.sleep(1)
         
-        print('calculating energy resolution')
+        # print('calculating energy resolution')
         energy_resolution, _df = self.energyResolution(myFile=root_path, energy=energy)
-        print(f'energy resolution finished: {energy_resolution} (going to sleep for 1 sec.)')
+        # print(f'energy resolution finished: {energy_resolution} (going to sleep for 1 sec.)')
         time.sleep(1)
         if self.delete_root == True:
             self.delRootFile(root_path)
-            print('.root deleted')
+            # print('.root deleted')
         if self.delete_cfg == True:
             self.delcfg(cfg_file)
-            print('.cfg deleted')
+            # print('.cfg deleted')
 
-        print('-----------------------------------------------------------------')
-        print('FINISHING PIPELINE')
-        print()
+        # print('-----------------------------------------------------------------')
+        # print('FINISHING PIPELINE')
+        # print()
         time.sleep(1)
         
         # Subject to minimize
@@ -346,6 +356,26 @@ class Simulation:
             energy_resol['energy'].append(energy)
 
         energyResolutions_df = pd.DataFrame(energy_resol)
+        fit_df = self.fitROOT(energyResolutions_df)
+        
+        return fit_df
+
+    def MultiFittingMultProc(self, energies):
+        
+        energy_resol = {'energy':[],
+                    'energy_resolution':[]}
+
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            
+            results =list(tqdm(executor.map(self.runEnergyResolution, energies),
+                                total=len(energies)))
+            print("Pipeline Finished!")
+
+        energy_resol['energy_resolution'] = results
+        energy_resol['energy'] = energies
+
+        energyResolutions_df = pd.DataFrame(energy_resol)
+
         fit_df = self.fitROOT(energyResolutions_df)
         
         return fit_df
